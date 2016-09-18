@@ -2,6 +2,11 @@ import Vue from 'vue'
 // import components:
 // import App from './App'
 
+// styling
+// require('jquery')
+// require('bootstrap-loader')
+// require('./assets/sass/style.sass')
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
@@ -34,7 +39,13 @@ new Vue({
       combatant.origName = combatant.name
       combatant.origInit = combatant.init
       combatant.edit = true
-      console.log(combatant)
+    },
+    cancelEdit: function (combatant) {
+      combatant.edit = false
+      combatant.name = combatant.origName
+      delete combatant['origName']
+      combatant.init = combatant.origInit
+      delete combatant['origInit']
     },
     newRound: function () {
       this.sortCombatants()
