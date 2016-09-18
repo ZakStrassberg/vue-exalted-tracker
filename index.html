@@ -10,16 +10,20 @@
 			ol {
 				list-style: none;
 			}
+			.activeCombatant {
+				background: blue;
+			}
 		</style>
 	</head>
 	<body>
 		<div id="app">
 			<button @click="newRound">Next Round (start combat)</button>
 			<p v-if="round != 0">Round {{round}}</p>
+			<p v-if="activeCombatant">{{activeCombatant.name}} is active</p>
 
 			<ol>
 				<li class="combatant"
-					v-for="(combatant, index) in combatants"
+					v-for="combatant in combatants"
 					:class="{activeCombatant: combatant == activeCombatant, turnOver: combatant.turnOver}">
 
 					<!-- Turn over checkbox -->
@@ -31,119 +35,25 @@
 					<input class="edit" type="text"
 					v-show="combatant.edit"
 					v-model="combatant.init"
-					@blur="updateCombatant(combatant)"
-					@keyup.enter="updateCombatant(combatant)"
+					@blur="combatant.edit = false"
+					@keyup.enter="combatant.edit = false"
 					@keyup.esc="cancelEdit(combatant)">
 
 					<!-- Buttons -->
 					<button type="submit" v-on:click="editCombatant(combatant)">edit</button>
-					<button type="submit" v-on:click="removeCombatant(index)">X</button>
+					<button type="submit" v-on:click="removeCombatant(combatant)">X</button>
 				</li>
 			</ol>
 
 			<form v-on:submit.prevent>
 				<h2>Add Combatant</h2>
-				Name: <input type="text" v-model="combatantName"> {{combatantName}}
-				Init: <input type="text" v-model="combatantInit"> {{combatantInit}}
+				Name: <input type="text" v-model="newCombatant.name">
+				Init: <input type="text" v-model="newCombatant.init">
 				<button type="submit" v-on:click="addCombatant">Add</button>
 			</form>
 				<button v-on:click="sortCombatants">Sort</button>
 		</div>
 
-		<script>
-			vm = new Vue({
-				el: '#app',
-				data: {
-					combatants: [],
-					combatantName: '',
-					combatantInit: '',
-					errors: [],
-					round: 0,
-					activeCombatant: null
-				},
-				methods: {
-					addCombatant: function() {
-						var name = this.combatantName.trim();
-						var init = parseInt(this.combatantInit)
-						if (name && Number.isInteger(init)) {
-							this.combatants.push({
-								name: name,
-								init: init,
-								edit: false,
-								turnOver: false,
-								active: function() {
-									if (!completed && highestNoncompleted) {
-										return true;
-									} else {
-										return false;
-									}
-								},
-								highestNoncompleted: function() {
-									for (combatant of this.combatants) {
-										if (!combatant.turnOver && combatant == test ) {
-											return combatant;
-										}
-									}
-								}
-							})
-						} // Add error checking
-					},
-					removeCombatant: function(index) {
-						this.combatants.splice(index, 1)
-					},
-					editCombatant: function(combatant) {
-						combatant.origName = combatant.name;
-						combatant.origInit = combatant.init;
-						this.editedCombatant = combatant; // necessary?
-						combatant.edit = true;
-						console.log(combatant)
-					},
-					updateCombatant: function(combatant) {
-						combatant.edit = false;
-					},
-					newRound: function() {
-						this.sortCombatants();
-						this.setAllActive();
-						this.round++;
-						this.activeCombatant = this.combatants[0];
-					},
-					sortCombatants: function() {
-						this.combatants.sort(function(a, b){
-							if (a.init > b.init) {
-								return -1;
-							}
-							if (a.init < b.init) {
-								return 1;
-							}
-							return 0;
-						})
-					},
-					setAllActive: function() {
-						for (each of this.combatants) {
-							each.turnOver = false;
-						}
-					},
-					endTurn: function(combatant) {
-						console.log("turnOver")
-						combatant.turnOver = true;
-					},
-					endCombat: function() {
-						this.round = 0;
-
-					}
-				},
-				directives: {
-					'combatant-focus': function(value) { // Not currently implemented. Can't get index properly
-						if(!value) {
-							return;
-						}
-						var el = this.el;
-						Vue.nextTick(function() {
-							el.focus();
-						})
-					}
-				}
-			});
-		</script>
+		<script src="./app.js" charset="utf-8"></script>
 	</body>
 </html>
