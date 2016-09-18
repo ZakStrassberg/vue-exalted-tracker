@@ -1,10 +1,11 @@
 import Vue from 'vue'
-import App from './App'
+// import components:
+// import App from './App'
 
 /* eslint-disable no-new */
 new Vue({
-  el: 'body',
-  components: { App },
+  el: '#app',
+  // components: { App },
   data: {
     combatants: [],
     newCombatant: {},
