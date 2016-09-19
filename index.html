@@ -5,48 +5,84 @@
     <title>{{ name }}</title>
   </head>
   <body>
-    <div id="app">
-      <button @click="newRound">Next Round (start combat)</button>
-      <p v-if="round != 0">Round {{round}}</p>
-      <p v-if="activeCombatant">{{activeCombatant.name}} is active</p>
+    <div id="app" class="container">
+      <div class="row">
+        <header class="twelve columns">
+          <header id="logo">
+            <h1>LOGO</h1>
+          </header>
+        </header>
+      </div>
+      <div class="row">
+        <section id="tracker" class="eight columns">
+          <h2>Tracker</h2>
+          <div class="combatant"
+            v-for="combatant in combatants"
+            :class="{active: combatant == activeCombatant, turnOver: combatant.turnOver}">
+              <!-- Turn over checkbox -->
+            <input type="checkbox" v-model="combatant.turnOver">
+              <!-- Displayed info -->
+            <h4 v-show="!combatant.edit">{{combatant.init}}</h4>
+            <h3>{{combatant.name}}</h3>
+            <input type="text"
+              v-show="combatant.edit  "
+              v-model="combatant.init"
+              @blur="combatant.edit = false"
+              @keyup.enter="combatant.edit = false"
+              @keyup.esc="cancelEdit(combatant)">
+            <div class="u-pull-right">
 
-      <ol>
-        <li class="combatant"
-          v-for="combatant in combatants"
-          :class="{activeCombatant: combatant == activeCombatant, turnOver: combatant.turnOver}">
+              <!-- Buttons -->
+              <button type="submit" @click="editCombatant(combatant)">edit</button>
+              <button type="submit" @click="removeCombatant(combatant)">X</button>
+            </div>
 
-          <!-- Turn over checkbox -->
-          <input type="checkbox" v-model="combatant.turnOver">
-
-          <!-- Displayed info -->
-          <span>{{combatant.name}}</span>
-          <span v-show="!combatant.edit">{{combatant.init}}</span>
-          <input class="edit" type="text"
-          v-show="combatant.edit"
-          v-model="combatant.init"
-          @blur="combatant.edit = false"
-          @keyup.enter="combatant.edit = false"
-          @keyup.esc="cancelEdit(combatant)">
-
-          <!-- Buttons -->
-          <button type="submit" v-on:click="editCombatant(combatant)">edit</button>
-          <button type="submit" v-on:click="removeCombatant(combatant)">X</button>
-        </li>
-      </ol>
-
-      <form v-on:submit.prevent>
-        <h2>Add Combatant</h2>
-        Name: <input type="text" v-model="newCombatant.name">
-        Init: <input type="text" v-model="newCombatant.init">
-        <button type="submit" v-on:click="addCombatant">Add</button>
-      </form>
-        <button v-on:click="sortCombatants">Sort</button>
+          </div>
+          <div>
+            <button @click="newRound">Next Round (start combat)</button>
+            <p v-if="round != 0">Round {{round}}</p>
+            <p v-if="activeCombatant">{{activeCombatant.name}} is active</p>
+            <button v-on:click="sortCombatants">Sort</button>
+          </div>
+        </section>
+        <section id="controls" class="four columns">
+          <form v-on:submit.prevent>
+            <h2>Add Combatant</h2>
+            Name: <input type="text" v-model="newCombatant.name">
+            Init: <input type="text" v-model="newCombatant.init">
+            <button type="submit" v-on:click="addCombatant">Add</button>
+          </form>
+        </section>
+      </div>
     </div>
   </body>
 </html>
 
 <style lang="scss">
-  * {
-    
+  body {
+    background: #87CEEB;
   }
+  section {
+    background: #FFDF8D;
+  }
+  h3, h4 {
+    display: inline;
+  }
+  .combatant {
+    border: 1px solid black;
+    border-radius: 12px;
+    margin: 4px;
+    padding: 4px;
+  }
+  h4 {
+    border: 1px solid black;
+    border-radius: 12px;
+  }
+  .combatant.active {
+    background: #FFD569;
+  }
+  .combatant.turnOver {
+    background: gray;
+  }
+
 </style>

@@ -14,7 +14,10 @@ new Vue({
   el: '#app',
   // components: { App },
   data: {
-    combatants: [],
+    combatants: [
+      {name: 'Dreaming Sea', init: 4},
+      {name: 'Harmonious Jade', init: 12}
+    ],
     newCombatant: {},
     errors: [],
     round: 0,
@@ -38,9 +41,11 @@ new Vue({
       this.combatants.splice(index, 1)
     },
     editCombatant: function (combatant) {
+      console.log('edit combatant')
       combatant.origName = combatant.name
       combatant.origInit = combatant.init
       combatant.edit = true
+      console.log(combatant.edit)
     },
     cancelEdit: function (combatant) {
       combatant.edit = false
