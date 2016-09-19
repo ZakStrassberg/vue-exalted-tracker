@@ -52,6 +52,7 @@
     "resolve-url-loader": "^1.6.0",
     "sass-loader": "^4.0.2",
     "shelljs": "^0.6.0",
+    "skeleton-css": "^2.0.4",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "vue-hot-reload-api": "^1.2.0",

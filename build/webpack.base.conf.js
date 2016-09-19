@@ -41,8 +41,14 @@ module.exports = {
     ],
     loaders: [
       {
+        test: /\.scss$/,
+        // Passing indentedSyntax query param to node-sass
+        loaders: ['style', 'css', 'sass']
+      },
+      {
         test: /\.sass$/,
-        loaders: ["style", "css", "sass"]
+        // Passing indentedSyntax query param to node-sass
+        loaders: ['style', 'css', 'sass?indentedSyntax']
       },
       {
         test: /\.vue$/,
