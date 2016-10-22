@@ -48,8 +48,12 @@
         <section id="controls" class="four columns">
           <form v-on:submit.prevent>
             <h2>Add Combatant</h2>
-            Name: <input type="text" v-model="newCombatant.name">
-            Init: <input type="text" v-model="newCombatant.init">
+            <label>
+              Name: <input type="text" v-model="newCombatant.name">
+            </label>
+            <label>
+              Init: <input type="text" v-model="newCombatant.init">
+            </label>
             <button type="submit" v-on:click="addCombatant">Add</button>
           </form>
         </section>

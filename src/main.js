@@ -7,7 +7,6 @@ import Vue from 'vue'
 // require('bootstrap-loader')
 require('./assets/css/normalize.css')
 require('./assets/css/skeleton.css')
-require('./assets/sass/style.scss')
 
 /* eslint-disable no-new */
 new Vue({
